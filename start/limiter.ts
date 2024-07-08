@@ -20,7 +20,14 @@ export const apiThrottle = limiter.define('singa-api', (ctx) => {
    * Allow authenticated users to make 150 requests every 5 minutes by their user id
    */
   if (ctx.auth.user) {
-    return limiter.allowRequests(150).every('5 minute').usingKey(`user_${ctx.auth.user.id}`)
+    return limiter
+      .allowRequests(150)
+      .every('5 minute')
+      .usingKey(`user_${ctx.auth.user.id}`)
+      .blockFor('15 mins')
+      .limitExceeded((error) => {
+        return error.message
+      })
   }
   /**
    * Allow unauthenticated users to make 50 requests every 5 minutes

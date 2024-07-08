@@ -34,6 +34,8 @@ steps:
         '--allow-unauthenticated',
         '--port',
         $_CUSTOM_PORT,
+        '--vpc-ingress',
+        'internal-and-cloud-load-balancing',
         '--vpc-connector',
         $_VPC_CONNECTOR,
         '--vpc-egress',
